@@ -37,7 +37,7 @@ First we will calcualte the total number of steps taken per day and generate a h
 
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
-stepsperday <- ddply(activity, .(date), summarize, total = sum(steps))
+stepsperday <- ddply(activity, .(date), summarize, total = sum(steps, na.rm=TRUE))
 hist(stepsperday$total, col="red", xlab = "Total steps per day", main="Histogram of total steps per day")
 meanperday <- sprintf ("%.2f", mean(stepsperday$total, na.rm=TRUE))
 medianperday <- median(stepsperday$total, na.rm=TRUE)
@@ -47,14 +47,18 @@ The mean number of steps/day was `r meanperday`.
 The median number of steps/day was `r medianperday`.
 
 ## What is the average daily activity pattern?
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
+First aggregate things by 5 minute interval. Then generate the line chart.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+stepsper5min <- ddply(activity, .(interval), summarize, mean = mean(steps, na.rm=TRUE))
+plot ( stepsper5min, type="l", col="purple", main="Average steps/5 min interval", xlab="5 minute interval", ylab="Mean steps taken")
+topsteps <- head(stepsper5min[order(stepsper5min$mean, decreasing=TRUE),], 1)
 ```
 
+Interval `r topsteps[1,1]` contains the maximum average number of steps `r sprintf ("%.f", topsteps[1,2])`.
 
-
-
-## Imputing missing values
+## Inputing missing values
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
 ```
