@@ -59,12 +59,26 @@ topsteps <- head(stepsper5min[order(stepsper5min$mean, decreasing=TRUE),], 1)
 Interval `r topsteps[1,1]` contains the maximum average number of steps `r sprintf ("%.f", topsteps[1,2])`.
 
 ## Inputing missing values
-```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
+There are a total of `r sum(is.na(activity$steps))` missing values in the dataset. How should be add them back in? The suggestion from the assignment is to just plug in the mean or median for the day, but I'm not sure that is reasonable. The other suggestion is to sub the median for that time period, but isn't at all obvious to me that someone will typically walk the same amount every day regardless of the day. One could do a comparison of approaches to see what the affect would be, but that's not the intent of this assigned. So I will take a naive appraoch and just replace N/As with 0. 
+
+Now we'll repeat the analysis from above. New histogram and new mean and median calculations. 
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+missing<-sum(is.na(activity$steps))
+activitynona <- activity
+activitynona[is.na(activitynona)] <- 0
+stepsperdaynona <- ddply(activity, .(date), summarize, total = sum(steps, na.rm=TRUE))
+hist(stepsperdaynona$total, col="red", xlab = "Total steps per day no missing values", main="Histogram of total steps per day with missing values replaced by 0")
+meanperdaynona <- sprintf ("%.2f", mean(stepsperdaynona$total, na.rm=TRUE))
+medianperdaynona <- median(stepsperdaynona$total, na.rm=TRUE)
 ```
 
+When the missing values are replaced by 0s:
+The mean number of steps/day was `r meanperday`.
+The median number of steps/day was `r medianperday`.
 
-
+We can conclude from this that replacing the N/As with 0 is the same as just ignoring them. 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
