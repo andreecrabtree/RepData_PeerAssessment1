@@ -7,19 +7,53 @@ output:
 
 
 ## Loading and preprocessing the data
+Make sure you install the following packages:
 
+- knitr
+- rmarkdown
+- ggplot2
+- plyr (just in case :-) 
 
+Let's read in the file and convert the date column to an actual date type.
+
+```{r loaddata, echo=TRUE, message=FALSE, warning=FALSE}
+library (plyr)
+library (ggplot2)
+library (knitr)
+library (rmarkdown)
+
+activity <- read.csv("activity.csv")
+activity$date <- as.Date(activity$date, "%Y-%m-%d")
+head(activity)
+```
+We've got N/As but we'll deal with them later. 
+
+We should be ready for some analysis now. 
 
 ## What is mean total number of steps taken per day?
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
 
+```
 
 
 ## What is the average daily activity pattern?
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+
+```
+
 
 
 
 ## Imputing missing values
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+
+```
+
 
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+
+```
+
