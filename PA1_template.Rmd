@@ -83,11 +83,7 @@ We can conclude from this that replacing the N/As with 0 is the same as just ign
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 activitynona$weekend <- as.factor(ifelse( weekdays (activity$date) %in% c("Sunday", "Saturday"), "weekend", "weekday"))
-
 stepsper5minweekend <- ddply(activitynona, .(interval, weekend), summarize, mean = mean(steps, na.rm=TRUE))
-plot ( stepsper5min, type="l", col="purple", main="Average steps/5 min interval", xlab="5 minute interval", ylab="Mean steps taken")
-
-topsteps <- head(stepsper5min[order(stepsper5min$mean, decreasing=TRUE),], 1)
-xyplot (mean ~ interval | factor (weekend), data = stepsper5minweekend, aspect = 1/2, type = "l")
+xyplot (mean ~ interval | factor (weekend), data = stepsper5minweekend, aspect = 1/2, type = "l", ylab="Mean number of steps", xlab = "Interval", main="Mean steps breakdown weekend vs. weekday")
 ```
 
